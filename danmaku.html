@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>JS Danmaku Sample</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">google.load("jquery", "1.3.1");</script>
+    <script type="text/javascript" src="sprite.js"></script>
+    <script type="text/javascript" src="system.js"></script>
+  </head>
+  <body>
+   <div>
+      FPS : <span id="fps">0/0</span> |
+      Obujects Count : <span id="label">0</span>
+    <button onclick="System.start()">eval</button>
+    </div>
+<table>
+<tbody>
+<tr>
+<td>
+    <canvas id="canvas" width="380" height="450" style="border:medium
+  solid #000000"></canvas>
+</td>
+<td>
+    <textarea id='stage' cols="40" rows="24"  wrap="off" style="overflow:scroll;">
+var Player1 = (function(){
+    var Shot1 = Shot({img_path:"tama2.png", dx:10, dy:10,
+                update:function(target){target.y -= 10;} });
+    return Player({
+        img_path:"player.png", dx:5, dy:5,
+	fire:function(target){ Shot1(target.x + (target.width / 2), target.y);}
+    });
+})();
+
+var E1 = (function(){
+    var cnt = 0;
+    var dx = dy = 5;
+    var Shot1 = Enamy({img_path:"tama.png", dx:dx, dy:dy,
+                update:function(target){target.y += target.dy;} });
+    var Shot2 = Enamy({img_path:"tama.png", dx:dx, dy:dy,
+                update:function(target){target.y -= target.dy;} });
+    var Shot3 = Enamy({img_path:"tama.png", dx:dx, dy:dy,
+                update:function(target){target.x -= target.dx;} });
+    var Shot4 = Enamy({img_path:"tama.png", dx:dx, dy:dy,
+                update:function(target){target.x += target.dx;} });
+    return Enamy({
+        img_path:"enemy.png",
+        dx:5, dy:5,
+        update:function(target){
+            if(cnt == 1){
+                Shot1(target.x + (target.width / 2), target.y + (target.height / 2));
+                Shot2(target.x + (target.width / 2), target.y + (target.height / 2));
+                Shot3(target.x + (target.width / 2), target.y + (target.height / 2));
+                Shot4(target.x + (target.width / 2), target.y + (target.height / 2));
+            }else if(cnt >= 10){
+                cnt = 0;
+            }
+            cnt++;
+        }
+    });
+})();
+
+Player1(System.canvas.width / 2, System.canvas.height - 30);
+E1(System.canvas.width / 2, 100);
+</textarea>
+    </td></tr></tbody></table>
+    <div>移動:カーソル, ショット:Z, 開始／中断:スペース</dib>
+  </body>
+</html>
